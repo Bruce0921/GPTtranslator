@@ -1,1 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Translator</title>
+</head>
+<body>
+    <h1>Translate Text</h1>
+    <textarea id="text-to-translate" placeholder="Enter text to translate"></textarea><br>
+    <select id="target-language">
+        <option value="French">French</option>
+        <option value="Spanish">Spanish</option>
+        <!-- Add more languages here -->
+    </select><br>
+    <button onclick="translate()">Translate</button>
+    <h2>Translated Text:</h2>
+    <p id="translated-text"></p>
 
+    <script>
+        async function translate() {
+            const text = document.getElementById("text-to-translate").value;
+            const targetLanguage = document.getElementById("target-language").value;
+            const response = await fetch('http://127.0.0.1:5000/translate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text: text, target_language: targetLanguage })
+            });
+            const data = await response.json();
+            if (data.translated_text) {
+                document.getElementById("translated-text").innerText = data.translated_text;
+            } else if (data.error) {
+                alert(`Error: ${data.error}`);
+            }
+        }
+    </script>
+</body>
+</html>
