@@ -1,9 +1,6 @@
 from flask import Flask, request, jsonify, send_from_directory
 
 import os
-if not os.environ.get("OPENAI_API_KEY"):
-    raise EnvironmentError("OPENAI_API_KEY not set")
-    
 import openai
 import logging
 logging.basicConfig(filename='error.log', level=logging.DEBUG)
@@ -11,7 +8,10 @@ logging.basicConfig(filename='error.log', level=logging.DEBUG)
 app = Flask(__name__, static_folder='../frontend')
 openai_api_key = os.environ.get("OPENAI_API_KEY")
 
-
+@app.route('/test', methods=['GET'])
+def test():
+    return "Test endpoint"
+    
 @app.route('/')
 def home():
     return send_from_directory(app.static_folder, 'index.html')
