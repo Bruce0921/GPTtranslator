@@ -29,6 +29,7 @@ def translate_text(text, source_lang, target_lang):
         engine="text-davinci-002",
         prompt=prompt,
         max_tokens=100,
+        api_key=openai_api_key  # Use the API key here
     )
     return response.choices[0].text.strip()
 
