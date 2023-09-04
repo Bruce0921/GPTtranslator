@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, render_template
 
 import os
 import openai
@@ -7,6 +8,10 @@ logging.basicConfig(filename='error.log', level=logging.DEBUG)
 
 app = Flask(__name__, static_folder='../frontend')
 openai_api_key = os.environ.get("OPENAI_API_KEY")
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/test', methods=['GET'])
 def test():
