@@ -1,1 +1,1 @@
-web: python gptTranslator.py
+web: gunicorn gptTranslator:app
