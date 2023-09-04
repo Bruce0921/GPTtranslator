@@ -13,9 +13,9 @@ openai_api_key = os.environ.get("OPENAI_API_KEY")
 def index():
     return render_template('index.html')
 
-@app.route('/test', methods=['GET'])
-def test():
-    return "Test endpoint"
+# @app.route('/test', methods=['GET'])
+# def test():
+#     return "Test endpoint"
     
 @app.route('/')
 def home():
