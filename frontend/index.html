@@ -120,6 +120,11 @@ async function translate() {
         body: JSON.stringify({ sourceText, sourceLang, targetLang }),
     });
 
+    if (!response.ok) {
+        console.error("Server returned an error:", await response.text());
+        return;
+    }
+    
     const data = await response.json();
     console.log("Received data:", data);
 
