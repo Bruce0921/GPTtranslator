@@ -3,7 +3,7 @@ import os
 import openai
 import logging
 
-logging.basicConfig(filename='error.log', level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__, static_folder='../frontend')
 openai_api_key = os.environ.get("OPENAI_API_KEY")
@@ -46,23 +46,24 @@ def translate_text(text, source_lang, target_lang):
 
 @app.route('/translate', methods=['POST'])
 def translate():
-    data = request.json
-    text = data['sourceText']
-
-    detected_language = detect_language(text)
-
-    if detected_language == "English":
-        source_language = "English"
-        target_language = "Mandarin Chinese"
-    else:
-        source_language = "Mandarin Chinese"
-        target_language = "English"
-
     try:
+        data = request.json
+        text = data['sourceText']
+
+        detected_language = detect_language(text)
+
+        if detected_language == "English":
+            source_language = "English"
+            target_language = "Mandarin Chinese"
+        else:
+            source_language = "Mandarin Chinese"
+            target_language = "English"
+
         translated_text = translate_text(text, source_language, target_language)
         return jsonify(
             {"translatedText": translated_text, "sourceLanguage": source_language, "targetLanguage": target_language})
     except Exception as e:
+        app.logger.error(f"Exception occurred: {str(e)}")
         return jsonify({"error": str(e)})
 
 
