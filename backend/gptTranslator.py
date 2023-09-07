@@ -39,11 +39,11 @@ def translate_text(text, source_lang, target_lang):
     response = openai.Completion.create(
         engine="text-davinci-002",
         prompt=prompt,
-        max_tokens=100,
+        max_tokens=500,  # Increased from 100 to 500
         api_key=openai_api_key  # Use the API key here
     )
     return response.choices[0].text.strip()
-
+    
 
 @app.route('/translate', methods=['POST'])
 def translate():
