@@ -35,14 +35,17 @@ def detect_language(text):
 
 def translate_text(text, source_lang, target_lang):
     print(f"Translating text: {text}, from {source_lang} to {target_lang}")  # Debugging line
+    if target_lang == "Mandarin Chinese":
+        target_lang = "Simplified Chinese"  # Specify Simplified Chinese
     prompt = f"Translate the following text from {source_lang} to {target_lang}: {text}"
     response = openai.Completion.create(
         engine="text-davinci-002",
         prompt=prompt,
-        max_tokens=500,  # Increased from 100 to 500
+        max_tokens=500,
         api_key=openai_api_key  # Use the API key here
     )
     return response.choices[0].text.strip()
+
     
 
 @app.route('/translate', methods=['POST'])
