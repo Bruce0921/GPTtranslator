@@ -7,7 +7,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 # app = Flask(__name__, static_folder='../frontend')
 app = Flask(__name__, template_folder='../frontend')
-openai_api_key = "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"
+openai_api_key = openai_api_key = os.environ.get("OPENAI_API_KEY")
 
 
 @app.route('/')
