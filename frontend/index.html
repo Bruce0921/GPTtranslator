@@ -93,6 +93,15 @@
             <label for="sourceText">Source Text:</label><br>
             <textarea id="sourceText" name="sourceText" rows="10"></textarea><br>
 
+            <!-- Added Translation Style Dropdown -->
+            <label for="translationStyle">Translation Style:</label>
+            <select id="translationStyle" name="translationStyle">
+                <option value="default">Default</option>
+                <option value="poem">Poem</option>
+                <option value="professional">Professional</option>
+                <option value="casual">Casual</option>
+            </select><br>
+
             <input type="button" id="translateButton" value="Translate">
         </form>
     </div>
@@ -127,20 +136,20 @@ async function translate() {
     const sourceText = document.getElementById("sourceText").value;
     const sourceLang = document.getElementById("sourceLang").value;
     const targetLang = document.getElementById("targetLang").value;
+    const translationStyle = document.getElementById("translationStyle").value;  // Added this line
 
     const response = await fetch('/translate', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ sourceText, sourceLang, targetLang }),
+        body: JSON.stringify({ sourceText, sourceLang, targetLang, style: translationStyle }),  // Updated this line
     });
-
     if (!response.ok) {
         console.error("Server returned an error:", await response.text());
         return;
     }
-    
+
     const data = await response.json();
     console.log("Received data:", data);
 
@@ -152,5 +161,6 @@ async function translate() {
 
 </body>
 </html>
+
 
 
