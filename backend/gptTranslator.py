@@ -7,16 +7,18 @@ logging.basicConfig(level=logging.DEBUG)
 
 # app = Flask(__name__, static_folder='../frontend')
 app = Flask(__name__, template_folder='../frontend')
-openai_api_key = os.environ.get("OPENAI_API_KEY")
+openai_api_key = "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"
+
 
 @app.route('/')
 def index():
     return render_template('index.html')
-    
+
+
 # @app.route('/test', methods=['GET'])
 # def test():
 #     return "Test endpoint"
-    
+
 # @app.route('/')
 # def home():
 #     return send_from_directory(app.static_folder, 'index.html')
@@ -46,22 +48,25 @@ def translate_text(text, source_lang, target_lang):
     )
     return response.choices[0].text.strip()
 
-    
 
 @app.route('/translate', methods=['POST'])
 def translate():
     try:
         data = request.json
         text = data['sourceText']
+        source_language = data['sourceLang']
+        target_language = data['targetLang']
 
-        detected_language = detect_language(text)
-
-        if detected_language == "English":
+        # Convert the language names to the format expected by the translation function
+        if source_language == "English":
             source_language = "English"
-            target_language = "Mandarin Chinese"
         else:
             source_language = "Mandarin Chinese"
+
+        if target_language == "English":
             target_language = "English"
+        else:
+            target_language = "Mandarin Chinese"
 
         translated_text = translate_text(text, source_language, target_language)
         return jsonify(
@@ -69,6 +74,7 @@ def translate():
     except Exception as e:
         app.logger.error(f"Exception occurred: {str(e)}")
         return jsonify({"error": str(e)})
+
 
 
 if __name__ == '__main__':
