@@ -12,21 +12,27 @@
             color: #fff;
         }
         h1 {
-            color: #fff;
-            font-size: 3em;
-            text-align: center;
+            color: #333; /* Adjusted color for better visibility on a white background */
+            font-size: 2em;
+            text-align: left;
             padding: 20px;
-            text-shadow: 2px 2px 4px #000;
+            margin: 0; /* Ensure no default margin */
+            text-shadow: none;
+            background-color: #fff; /* Set the background to white */
+            width: 100%; /* Make the header as wide as the website */
+            border-bottom: 1px solid #e0e0e0; /* Optional: Add a slight border at the bottom for separation */
         }
+
         .container {
             display: flex;
             justify-content: space-between;
             background-color: rgba(255, 255, 255, 0.9);
             padding: 20px;
-            margin: 20px;
+            margin: 50px auto; /* Adjusted margin for centralization */
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             color: #333;
+            max-width: 80%; /* Limit the width for better centralization */
         }
         .input-area, .output-area {
             width: 48%;
@@ -75,40 +81,6 @@
                 width: 100%;
             }
         }
-
-        .translation-btn,
-        .btn-error::before {
-            box-sizing: border-box;
-            position: absolute;
-            left: 50%;
-            box-shadow: 0px 0px 10px 2px rgba(34, 60, 80, 0.5);
-            border-radius: 0.5rem;
-        }
-
-        .translation-btn {
-            width: 5rem;
-            padding: 1.5rem;
-            background: no-repeat center black url(https://icongr.am/entypo/language.svg?size=25&color=ffffff);
-            top: 6rem;
-            opacity: 0;
-            transition: opacity 2s;
-        }
-
-        .btn-error::before {
-            content: attr(data-error);
-            font-size: 1.3rem;
-            top: 4rem;
-            transform: translate(-50%);
-            width: max-content;
-            padding: 0.5rem;
-            color: white;
-            background-color: black;
-        }
-
-        .btn-succes {
-            background: no-repeat center black url(https://icongr.am/entypo/controller-paus.svg?size=20&color=ffffff);
-        }
-
     </style>
 </head>
 <body>
@@ -136,7 +108,7 @@
                 <option value="casual">Casual</option>
             </select><br>
 
-            <input type="button" id="translateButton" class="translation-btn" value="">
+            <input type="button" id="translateButton" value="Translate">
         </form>
     </div>
     <div class="output-area">
@@ -181,7 +153,6 @@ async function translate() {
     });
     if (!response.ok) {
         console.error("Server returned an error:", await response.text());
-        showError("Translation Error!"); // Show error
         return;
     }
 
@@ -191,28 +162,7 @@ async function translate() {
     document.getElementById("translatedText").value = data.translatedText;
     document.getElementById("sourceLang").value = data.sourceLanguage;
     document.getElementById("targetLang").value = data.targetLanguage;
-
-    showSuccess();
-    
-
-    document.getElementById("translatedText").value = data.translatedText;
-    document.getElementById("sourceLang").value = data.sourceLanguage;
-    document.getElementById("targetLang").value = data.targetLanguage;
 }
-
-function showSuccess() {
-    const btn = document.getElementById("translateButton");
-    btn.classList.add("btn-succes");
-    setTimeout(() => btn.classList.remove("btn-succes"), 2000); // remove after 2 seconds
-}
-
-function showError(errorMsg) {
-    const btn = document.getElementById("translateButton");
-    btn.classList.add("btn-error");
-    btn.setAttribute("data-error", errorMsg);
-    setTimeout(() => btn.classList.remove("btn-error"), 2000); // remove after 2 seconds
-}
-
 </script>
 
 </body>
